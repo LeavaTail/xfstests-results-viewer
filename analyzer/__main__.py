@@ -18,6 +18,7 @@ import re
 from logging import getLogger, StreamHandler, DEBUG, INFO, ERROR
 
 import testcase
+from conv_json import convert_results
 
 directory = '.'
 level = INFO
@@ -195,8 +196,7 @@ def main():
     read_results()
 
     logger.debug('[Result]')
-    for test in formattedlist:
-        print(test.convert_json())
+    print(convert_results(formattedlist))
     logger.debug('')
 
 if __name__ == "__main__":

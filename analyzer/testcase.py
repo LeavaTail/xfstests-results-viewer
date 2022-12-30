@@ -4,8 +4,6 @@ This modules stored the xfstests results information. This information use
 timestamp and logfile as well as result directory.
 """
 
-import json
-
 class TestClass():
     """Test result generic class
 
@@ -37,9 +35,6 @@ class TestClass():
 
     def update_path(self, base):
         self.path = base + '/' + self.name
-
-    def convert_json(self):
-        return json.dumps(self.__dict__, sort_keys=True, indent=4)
 
 
 class PassedClass(TestClass):
