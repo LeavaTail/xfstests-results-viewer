@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# coding: utf-8
 """xfstests result information
 
 This modules stored the xfstests results information. This information use
