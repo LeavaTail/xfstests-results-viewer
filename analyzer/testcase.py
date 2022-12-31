@@ -14,7 +14,6 @@ class TestClass():
 
     Attributes:
         name (str): Testcase name
-        result (str): result category
         sec (int): The elapsed time (second)
         remarks (str): Additional information (e.g. Skipped cause)
         path (str): The pathname for xfstests result
@@ -22,7 +21,6 @@ class TestClass():
 
     def __init__(self, name=''):
         self.name = name
-        self.result = ''
         self.sec = 0
         self.remarks = ''
         self.path = ''
@@ -47,7 +45,6 @@ class PassedClass(TestClass):
 
     Attributes:
         name (str): Testcase name
-        result (str): result category
         sec (int): The elapsed time (second)
         remarks (str): Additional information (e.g. Skipped cause)
         path (str): The pathname for xfstests result
@@ -56,7 +53,6 @@ class PassedClass(TestClass):
 
     def __init__(self, name=''):
         super().__init__(name)
-        self.result = 'Passed'
 
 
 class SkippedClass(TestClass):
@@ -69,7 +65,6 @@ class SkippedClass(TestClass):
 
     Attributes:
         name (str): Testcase name
-        result (str): result category
         sec (int): The elapsed time (second)
         remarks (str): Additional information (e.g. Skipped cause)
         path (str): The pathname for xfstests result
@@ -77,7 +72,6 @@ class SkippedClass(TestClass):
 
     def __init__(self, name=''):
         super().__init__(name)
-        self.result = 'Skipped'
 
     def update_summary(self, pathname):
         try:
@@ -99,7 +93,6 @@ class FailedClass(TestClass):
 
     Attributes:
         name (str): Testcase name
-        result (str): result category
         sec (int): The elapsed time (second)
         remarks (str): Additional information (e.g. Skipped cause)
         path (str): The pathname for xfstests result
@@ -107,4 +100,3 @@ class FailedClass(TestClass):
 
     def __init__(self, name=''):
         super().__init__(name)
-        self.result = 'Failed'

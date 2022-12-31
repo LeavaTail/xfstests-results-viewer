@@ -24,9 +24,9 @@ directory = '.'
 level = INFO
 logger = getLogger(__name__)
 handler = StreamHandler()
-formattedlist = []
+formattedlist = {}
 
-def create_instance():
+def read_results():
     """Create the list of TestClass instance.
 
     This method uses "check.log" that is the xfstests result file, and
@@ -37,18 +37,21 @@ def create_instance():
     Note:
         Only obtain the log in last result 
     """
-
-    result_file = directory + '/' + 'check.log'
+    passedlist = []
+    skippedlist = []
+    failedlist = []
 
     try:
-        with open(result_file, 'r') as f:
-            contents = f.read()
+        with open(directory + '/check.log', 'r') as f:
+            logs = f.read()
+        with open(directory + '/check.time', 'r') as f:
+            time = f.read()
     except OSError:
-        print("Could not open file:" + result_file)
+        print("Could not open file under " + directory)
         sys.exit()
 
     # Obtain from last log
-    testlog = contents.split('\n\n')[-1]
+    testlog = logs.split('\n\n')[-1]
 
     # test logs are divided into 3 sections
     # 1. Ran (All testcases)
@@ -65,41 +68,38 @@ def create_instance():
     # First argument is index 'Ran:' should be skipped
     for test in testlist[1:-1]:
         if test in skippedtest:
-            formattedlist.append(testcase.SkippedClass(test))
+            s = testcase.SkippedClass(test)
+            update_details(s, time)
+            skippedlist.append(s)
             logger.debug(test + ' :Skipped')
         elif test in failedtest:
-            formattedlist.append(testcase.FailedClass(test))
+            f = testcase.FailedClass(test)
+            update_details(f, time)
+            failedlist.append(f)
             logger.debug(test + ' :Failed')
         else:
-            formattedlist.append(testcase.PassedClass(test))
+            p = testcase.PassedClass(test)
+            update_details(p, time)
+            passedlist.append(p)
             logger.debug(test + ' :Passed')
     logger.debug('')
 
-def update_time():
-    """Update these instance for timestamp.
+    formattedlist["passed"] = passedlist
+    formattedlist["failed"] = failedlist
+    formattedlist["skipped"] = skippedlist
 
-    This method uses "check.time" that is the xfstests timestamp file.
-    """
+def update_details(testcase, time):
+    testcase.update_summary(directory + '/')
+    testcase.update_path(directory)
 
-    result_file = directory + '/' + 'check.time'
-
-    try:
-        with open(result_file, 'r') as f:
-            contents = f.read()
-    except OSError:
-        print("Could not open file:" + result_file)
-        sys.exit()
-
-    # test is separated by a new line
-    for item in formattedlist:
-        # timestamp is separated by a space
-        line = re.findall(item.name + ' ' + '\d+', contents)
-        # passed testcase
-        if line:
-            item.update_time(line[0].split(' ')[1])
-        # skipped or failed testcase
-        else:
-            pass
+    # timestamp is separated by a space
+    line = re.findall(testcase.name + ' ' + '\d+', time)
+    # passed testcase
+    if line:
+        testcase.update_time(line[0].split(' ')[1])
+    # skipped or failed testcase
+    else:
+        pass
 
 def update_summary():
     """Update these instance for details.
@@ -116,18 +116,6 @@ def update_pathname():
     """
     for test in formattedlist:
         test.update_path(directory)
-
-def read_results():
-    """Analyze test result and create the TestClass instance.
-
-    This method prepared to visualize the test results. The list formatted
-    test results by execute this.
-    """
-
-    formattedlist = create_instance()
-    update_time()
-    update_summary()
-    update_pathname()
 
 def set_logger():
     """Set the parameter in logger.
