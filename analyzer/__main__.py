@@ -37,6 +37,7 @@ def read_results():
     Note:
         Only obtain the log in last result 
     """
+    testlist = []
     passedlist = []
     skippedlist = []
     failedlist = []
@@ -53,16 +54,18 @@ def read_results():
     # Obtain from last log
     testlog = logs.split('\n\n')[-1]
 
-    # test logs are divided into 3 sections
-    # 1. Ran (All testcases)
-    # 2. Not run (Skipped testcases)
-    # 3. Failures: (Failed testcases)
-    alltest = testlog.split('\n')[1]
-    skippedtest = testlog.split('\n')[2]
-    failedtest = testlog.split('\n')[3]
+    if testlog:
+        # test logs are divided into 3 sections
+        # 1. Ran (All testcases)
+        # 2. Not run (Skipped testcases)
+        # 3. Failures: (Failed testcases)
+        alltest = testlog.split('\n')[1]
+        skippedtest = testlog.split('\n')[2]
+        failedtest = testlog.split('\n')[3]
 
-    # test is separated by a space
-    testlist = alltest.split(' ')
+        # test is separated by a space
+        testlist = alltest.split(' ')
+
 
     logger.debug('[Initialization]')
     # First argument is index 'Ran:' should be skipped
