@@ -4,7 +4,14 @@ This modules stored the xfstests results information. This information use
 timestamp and logfile as well as result directory.
 """
 
+import dataclasses
+
+@dataclasses.dataclass
 class TestClass():
+    name: str
+    sec: int
+    path: str
+    remarks: str
     """Test result generic class
 
     The generic class to store xfstests result
