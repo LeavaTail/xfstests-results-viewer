@@ -4,6 +4,7 @@ This modules stored the xfstests results information. This information use
 timestamp and logfile as well as result directory.
 """
 
+import sys
 import dataclasses
 
 @dataclasses.dataclass
