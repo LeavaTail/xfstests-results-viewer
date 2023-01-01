@@ -18,7 +18,7 @@ import re
 from logging import getLogger, StreamHandler, DEBUG, INFO, ERROR
 
 import testcase
-from conv_json import dump_results
+from conv_json import ConvJsonClass
 
 logger = getLogger(__name__)
 handler = StreamHandler()
@@ -148,6 +148,7 @@ def get_opts():
 
 def main():
     output = None
+    conv = ConvJsonClass()
     opts = get_opts()
     if opts.output:
         output = open(opts.output, 'a+')
@@ -156,7 +157,7 @@ def main():
     formattedlist = read_results(opts.results)
 
     logger.debug('[Result]')
-    dump_results(formattedlist, output)
+    conv.dump_results(formattedlist, output)
     logger.debug('')
 
     if output:
