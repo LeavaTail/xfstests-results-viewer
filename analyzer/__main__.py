@@ -20,11 +20,10 @@ from logging import getLogger, StreamHandler, DEBUG, INFO, ERROR
 import testcase
 from conv_json import convert_results
 
-directory = '.'
 logger = getLogger(__name__)
 handler = StreamHandler()
 
-def read_results():
+def read_results(directory):
     """Create the list of TestClass instance.
 
     This method uses "check.log" that is the xfstests result file, and
@@ -71,17 +70,17 @@ def read_results():
     for test in testlist[1:-1]:
         if test in skippedtest:
             s = testcase.SkippedClass(test)
-            update_details(s, time)
+            update_details(s, time, directory)
             skippedlist.append(s)
             logger.debug(test + ' :Skipped')
         elif test in failedtest:
             f = testcase.FailedClass(test)
-            update_details(f, time)
+            update_details(f, time, directory)
             failedlist.append(f)
             logger.debug(test + ' :Failed')
         else:
             p = testcase.PassedClass(test)
-            update_details(p, time)
+            update_details(p, time, directory)
             passedlist.append(p)
             logger.debug(test + ' :Passed')
     logger.debug('')
@@ -92,7 +91,7 @@ def read_results():
 
     return formattedlist
 
-def update_details(testcase, time):
+def update_details(testcase, time, directory):
     testcase.update_summary(directory + '/')
     testcase.update_path(directory)
 
@@ -136,15 +135,10 @@ def set_params(opts):
     """
 
     global output
-    global directory
 
     # Set the output strategy
     if (opts.output):
         sys.stdout = opts.output
-
-    # Set the input directory
-    if (opts.results):
-        directory = opts.results
 
 def get_opts():
     """Analyze the command line argument.
@@ -171,7 +165,7 @@ def main():
     opts = get_opts()
     set_params(opts)
     level = set_logger(opts)
-    formattedlist = read_results()
+    formattedlist = read_results(opts.results)
 
     logger.debug('[Result]')
     print(convert_results(formattedlist))
