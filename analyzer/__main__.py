@@ -125,21 +125,6 @@ def set_logger(opts):
 
     return level
 
-def set_params(opts):
-    """Set the parameter for this module.
-
-    This module can set the parameter by command line argument.
-    The log level is set by verbose or quite mode. The output
-    strategy is set by output. The input directory is set by
-    results.
-    """
-
-    global output
-
-    # Set the output strategy
-    if (opts.output):
-        sys.stdout = opts.output
-
 def get_opts():
     """Analyze the command line argument.
 
@@ -163,7 +148,8 @@ def get_opts():
 
 def main():
     opts = get_opts()
-    set_params(opts)
+    if opts.output:
+        sys.stdout = opts.output
     level = set_logger(opts)
     formattedlist = read_results(opts.results)
 
