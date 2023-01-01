@@ -104,22 +104,6 @@ def update_details(testcase, time):
     else:
         pass
 
-def update_summary():
-    """Update these instance for details.
-
-    This method uses the result directory that recorded by xfstests.
-    """
-    for test in formattedlist:
-        test.update_summary(directory + '/')
-
-def update_pathname():
-    """Update these instance for pathname.
-
-    This method uses the result directory that recorded by xfstests.
-    """
-    for test in formattedlist:
-        test.update_path(directory)
-
 def set_logger():
     """Set the parameter in logger.
 
