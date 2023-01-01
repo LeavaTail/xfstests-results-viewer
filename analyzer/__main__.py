@@ -21,7 +21,6 @@ import testcase
 from conv_json import convert_results
 
 directory = '.'
-level = INFO
 logger = getLogger(__name__)
 handler = StreamHandler()
 
@@ -106,17 +105,26 @@ def update_details(testcase, time):
     else:
         pass
 
-def set_logger():
+def set_logger(opts):
     """Set the parameter in logger.
 
     This module set the logger based on the mode that is "Default",
     "Verbose mode" and "Quite mode".
     """
+    # Set the log level
+    if (opts.verbose):
+        level = DEBUG
+    elif (opts.quite):
+        level = ERROR
+    else:
+        level = INFO
 
     handler.setLevel(level)
     logger.setLevel(level)
     logger.addHandler(handler)
     logger.propagate = False
+
+    return level
 
 def set_params(opts):
     """Set the parameter for this module.
@@ -127,16 +135,8 @@ def set_params(opts):
     results.
     """
 
-    global level
     global output
     global directory
-
-    # Set the log level
-    if (opts.verbose):
-        level = DEBUG
-    elif (opts.quite):
-        level = ERROR
-    set_logger()
 
     # Set the output strategy
     if (opts.output):
@@ -170,6 +170,7 @@ def get_opts():
 def main():
     opts = get_opts()
     set_params(opts)
+    level = set_logger(opts)
     formattedlist = read_results()
 
     logger.debug('[Result]')
