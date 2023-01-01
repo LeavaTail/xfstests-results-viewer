@@ -24,7 +24,6 @@ directory = '.'
 level = INFO
 logger = getLogger(__name__)
 handler = StreamHandler()
-formattedlist = {}
 
 def read_results():
     """Create the list of TestClass instance.
@@ -38,6 +37,7 @@ def read_results():
         Only obtain the log in last result 
     """
     testlist = []
+    formattedlist = {}
     passedlist = []
     skippedlist = []
     failedlist = []
@@ -90,6 +90,8 @@ def read_results():
     formattedlist["passed"] = passedlist
     formattedlist["failed"] = failedlist
     formattedlist["skipped"] = skippedlist
+
+    return formattedlist
 
 def update_details(testcase, time):
     testcase.update_summary(directory + '/')
@@ -168,7 +170,7 @@ def get_opts():
 def main():
     opts = get_opts()
     set_params(opts)
-    read_results()
+    formattedlist = read_results()
 
     logger.debug('[Result]')
     print(convert_results(formattedlist))
