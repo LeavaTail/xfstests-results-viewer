@@ -19,6 +19,7 @@ from logging import getLogger, StreamHandler, DEBUG, INFO, ERROR
 
 import testcase
 from conv_json import ConvJsonClass
+from conv_excel import ConvExcelClass
 
 logger = getLogger(__name__)
 handler = StreamHandler()
@@ -138,6 +139,7 @@ def get_opts():
 
     parser.add_argument('results', help='xfstests results directory path')
     parser.add_argument('-o', '--output', help='Output file')
+    parser.add_argument('--format', help='Output format type')
     parser.add_argument('-q', '--quite', help='Quite mode', action='store_true')
     parser.add_argument('-v', '--verbose', help='Verbose mode', action='store_true')
     opts = parser.parse_args()
@@ -145,8 +147,11 @@ def get_opts():
     return opts
 
 def main():
-    conv = ConvJsonClass()
     opts = get_opts()
+    if opts.format == 'excel':
+        conv = ConvExcelClass()
+    else:
+        conv = ConvJsonClass()
 
     level = set_logger(opts)
     formattedlist = read_results(opts.results)
