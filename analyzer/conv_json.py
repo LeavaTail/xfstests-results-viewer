@@ -3,7 +3,6 @@
 This modules define the method for JSON format.
 """
 
-import sys
 import json
 from conv_generic import ConvClass
 
@@ -22,28 +21,18 @@ class ConvJsonClass(ConvClass):
 
         Args:
             l (list): The class instance list 
-            output (io.TextIOWrapper): Output file (If None, then stdout)
+            output (str): Output pathname
 
         Examples:
             >>> dump_results({"passed": [testcase.SkippepClass("foo")]}]}, None)
-            {
-                "passed": [
-                    {
-                        "name": "foo",
-                        "path": "",
-                        "remarks": "",
-                        "sec": 0
-                    }
-                ]
-            }
-
         dump the results converts to JSON format.
         """
         if output is None:
-            output = sys.stdout
+            output = 'out.json'
 
-        output.write(self.convert_results(l))
-        output.write('\n')
+        with open(output, 'a+') as f:
+            f.write(self.convert_results(l))
+            f.write('\n')
 
     def default_method(self, item):
         if isinstance(item, object) and hasattr(item, '__dict__'):

@@ -145,19 +145,13 @@ def get_opts():
     return opts
 
 def main():
-    output = None
     conv = ConvJsonClass()
     opts = get_opts()
-    if opts.output:
-        output = open(opts.output, 'a+')
 
     level = set_logger(opts)
     formattedlist = read_results(opts.results)
 
-    conv.dump_results(formattedlist, output)
-
-    if output:
-        output.close()
+    conv.dump_results(formattedlist, opts.output)
 
 if __name__ == "__main__":
     main()
