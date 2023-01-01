@@ -65,7 +65,6 @@ def read_results(directory):
         testlist = alltest.split(' ')
 
 
-    logger.debug('[Initialization]')
     # First argument is index 'Ran:' should be skipped
     for test in testlist[1:-1]:
         if test in skippedtest:
@@ -83,7 +82,6 @@ def read_results(directory):
             update_details(p, time, directory)
             passedlist.append(p)
             logger.debug(test + ' :Passed')
-    logger.debug('')
 
     formattedlist["passed"] = passedlist
     formattedlist["failed"] = failedlist
@@ -156,9 +154,7 @@ def main():
     level = set_logger(opts)
     formattedlist = read_results(opts.results)
 
-    logger.debug('[Result]')
     conv.dump_results(formattedlist, output)
-    logger.debug('')
 
     if output:
         output.close()
