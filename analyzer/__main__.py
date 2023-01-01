@@ -18,7 +18,7 @@ import re
 from logging import getLogger, StreamHandler, DEBUG, INFO, ERROR
 
 import testcase
-from conv_json import convert_results
+from conv_json import dump_results
 
 logger = getLogger(__name__)
 handler = StreamHandler()
@@ -147,15 +147,20 @@ def get_opts():
     return opts
 
 def main():
+    output = None
     opts = get_opts()
     if opts.output:
-        sys.stdout = opts.output
+        output = open(opts.output, 'a+')
+
     level = set_logger(opts)
     formattedlist = read_results(opts.results)
 
     logger.debug('[Result]')
-    print(convert_results(formattedlist))
+    dump_results(formattedlist, output)
     logger.debug('')
+
+    if output:
+        output.close()
 
 if __name__ == "__main__":
     main()
