@@ -8,6 +8,10 @@ setup(
     author_email='starbow.duster@gmail.com',
     url='https://github.com/LeavaTail/xfstests-results-analyzer',
     packages=find_packages(),
+    entry_points="""
+      [console_scripts]
+      xfstests-analyzer = analyzer.__main__:main
+    """,
     install_requires = [
         'pandas',
         'openpyxl'
