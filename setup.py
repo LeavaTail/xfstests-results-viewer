@@ -8,4 +8,8 @@ setup(
     author_email='starbow.duster@gmail.com',
     url='https://github.com/LeavaTail/xfstests-results-analyzer',
     packages=find_packages(),
+    install_requires = [
+        'pandas',
+        'openpyxl'
+    ],
 )
