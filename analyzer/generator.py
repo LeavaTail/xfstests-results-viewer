@@ -6,7 +6,7 @@ This modules define the method to create the some instances
 import sys
 import re
 from logging import getLogger, CRITICAL
-import testcase
+from viewer.testcase import PassedClass, SkippedClass, FailedClass
 
 logger = getLogger("__main__").getChild("generator")
 
@@ -54,17 +54,17 @@ def read_results(directory):
     # First argument is index 'Ran:' should be skipped
     for test in testlist[1:-1]:
         if test in skippedtest:
-            s = testcase.SkippedClass(test)
+            s = SkippedClass(test)
             update_details(s, time, directory)
             skippedlist.append(s)
             logger.debug(test + ' :Skipped')
         elif test in failedtest:
-            f = testcase.FailedClass(test)
+            f = FailedClass(test)
             update_details(f, time, directory)
             failedlist.append(f)
             logger.debug(test + ' :Failed')
         else:
-            p = testcase.PassedClass(test)
+            p = PassedClass(test)
             update_details(p, time, directory)
             passedlist.append(p)
             logger.debug(test + ' :Passed')
