@@ -5,7 +5,10 @@ timestamp and logfile as well as result directory.
 """
 
 import sys
+from logging import getLogger
 import dataclasses
+
+logger = getLogger("__main__").getChild("testcase")
 
 @dataclasses.dataclass
 class TestClass():
@@ -86,7 +89,7 @@ class SkippedClass(TestClass):
             with open(pathname + self.name + '.' + 'notrun', 'r') as f:
                 contents = f.read()
         except OSError:
-            print("Could not open file:" + pathname + self.name + '.' + 'notrun')
+            logger.error("Could not open file:" + pathname + self.name + '.' + 'notrun')
             sys.exit()
         self.remarks = contents
 
