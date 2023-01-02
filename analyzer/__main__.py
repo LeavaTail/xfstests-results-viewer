@@ -21,7 +21,6 @@ from conv_json import ConvJsonClass
 from conv_excel import ConvExcelClass
 
 logger = getLogger(__name__)
-handler = StreamHandler()
 
 def set_logger(opts):
     """Set the parameter in logger.
@@ -39,6 +38,7 @@ def set_logger(opts):
     else:
         level = INFO
 
+    handler = StreamHandler()
     handler.setLevel(level)
     logger.setLevel(level)
     logger.addHandler(handler)
