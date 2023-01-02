@@ -14,7 +14,7 @@ Example:
 import os
 import sys
 import argparse
-from logging import getLogger, StreamHandler, DEBUG, INFO, ERROR
+from logging import getLogger, StreamHandler, DEBUG, CRITICAL, WARNING
 
 from generator import read_results
 from conv_json import ConvJsonClass
@@ -34,9 +34,9 @@ def set_logger(opts):
     if (opts.verbose):
         level = DEBUG
     elif (opts.quite):
-        level = ERROR
+        level = CRITICAL
     else:
-        level = INFO
+        level = WARNING
 
     handler = StreamHandler()
     handler.setLevel(level)
