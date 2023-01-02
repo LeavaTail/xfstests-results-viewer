@@ -2,13 +2,13 @@
 # coding: utf-8
 """organize the xfstests result
 
-This modules analyze and format the xfstests results. This use timestamp and
+This modules organize and format the xfstests results. This use timestamp and
 logfile as well as result directory. As a result, return the lists that is
 formatted by JSON.
 
 Example:
 
-    $ python3 analyzer.py /xfstests/results
+    $ python3 __main__.py /xfstests/results
 """
 
 import os
@@ -56,7 +56,7 @@ def get_opts():
     """
 
     parser = argparse.ArgumentParser(
-        prog='xfstests-test-analyzer',
+        prog='xfstests-test-viewer',
         description='Output json file from xfstests result')
 
     parser.add_argument('results', help='xfstests results directory path')

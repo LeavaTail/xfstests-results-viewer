@@ -1,2 +1,2 @@
-# xfstests-results-analyzer
+# xfstests-results-viewer
 The utilities for xfstests
