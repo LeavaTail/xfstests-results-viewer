@@ -1,5 +1,8 @@
 # xfstests-results-viewer
 
+[![Unit test](https://github.com/LeavaTail/sandbox/actions/workflows/unittest.yml/badge.svg)](https://github.com/LeavaTail/sandbox/actions/workflows/unittest.yml)
+[![codecov](https://codecov.io/gh/LeavaTail/xfstests-results-viewer/branch/main/graph/badge.svg)](https://codecov.io/gh/LeavaTail/xfstests-results-viewer)
+
 xfstests-results-viewer is a utilities to visutalize the results of
 [xfstests](https://git.kernel.org/pub/scm/fs/xfs/xfstests-dev.git).
 
