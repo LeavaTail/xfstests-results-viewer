@@ -18,9 +18,9 @@ def create_timefile(basepath, l, t):
         l (list[src]): test name list
         t (list[int]): execution time list
     """
-    with open(basepath + '/check.time', mode='x') as f:
+    with open('%s/check.time' % (basepath), mode='x') as f:
         for (x, y) in zip(l, t):
-            f.write(x + ' ' + str(y) + '\n')
+            f.write('%s %d\n' % (x, y))
 
 def create_logfile(basepath, passed, skipped, failed):
     """Create check.log for test
@@ -34,12 +34,13 @@ def create_logfile(basepath, passed, skipped, failed):
         skipped (list[src]): skipped test name list
         failed (list[src]): failed test name list
     """
-    with open(basepath + '/check.log', mode='x') as f:
+    with open('%s/check.log' % (basepath), mode='x') as f:
         f.write('Thu Jan  1 00:00:00 UTC 1970\n')
         write_testline(f, 'Ran: ', passed + skipped + failed)
         write_testline(f, 'Not run: ', skipped)
         write_testline(f, 'Failures: ', failed)
-        f.write('Failed ' + str(len(failed)) + ' of ' + str(len(passed + skipped + failed)) + ' tests\n')
+        f.write('Failed %d of %d tests\n' %
+                (len(failed), len(passed + skipped + failed)))
 
 def create_notrun(basepath, skipped):
     """Create ${testname}.notrun for test
@@ -56,8 +57,8 @@ def create_notrun(basepath, skipped):
     """
     for i in skipped:
         paths = i.rsplit('/', 1)
-        os.makedirs(basepath + paths[0], exist_ok=True)
-        with open(basepath + i + '.notrun', mode='x') as f:
+        os.makedirs('%s/%s' % (basepath, paths[0]), exist_ok=True)
+        with open('%s/%s.notrun' % (basepath, i), mode='x') as f:
             f.write(i)
 
 def write_testline(f, msg, l):
@@ -70,5 +71,5 @@ def write_testline(f, msg, l):
     """
     f.write(msg)
     for i in l:
-        f.write(i + ' ')
+        f.write('%s ' % (i))
     f.write('\n')

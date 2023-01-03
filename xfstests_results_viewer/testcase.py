@@ -70,19 +70,19 @@ class PassedClass(TestClass):
         super().__init__(name, sec, remarks, path)
 
     def update_time(self, pathname):
-        timepath = pathname + '/check.time'
+        timepath = '%s/check.time' % (pathname)
         try:
             with open(timepath, 'r') as f:
                 contents = f.read()
         except OSError:
-            logger.error("Could not open file:" + timepath)
+            logger.error("Could not open file: %s" % (timepath))
             sys.exit()
         # check.time format is "${testname} ${second}"
-        line = re.findall(self.name + ' ' + '\d+', contents)
+        line = re.findall('%s \d+' % (self.name), contents)
         try:
             self.sec = int(line[0].split(' ')[1])
         except:
-            logger.warning(self.sec + 'is not recorded at ' + timepath)
+            logger.warning('%d is not recorded at %s' % (self.sec, timepath))
 
 
 class SkippedClass(TestClass):
@@ -107,12 +107,12 @@ class SkippedClass(TestClass):
         super().__init__(name, sec, remarks, path)
 
     def update_summary(self, pathname):
-        logpath = pathname + '/' + self.name + '.notrun'
+        logpath = '%s/%s.notrun' % (pathname, self.name)
         try:
             with open(logpath, 'r') as f:
                 contents = f.read()
         except OSError:
-            logger.error("Could not open file:" + logpath)
+            logger.error("Could not open file: %s" %(logpath))
             sys.exit()
         self.remarks = contents
 

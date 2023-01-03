@@ -27,7 +27,7 @@ def read_results(directory):
     failedlist = []
 
     try:
-        with open(directory + '/check.log', 'r') as f:
+        with open('%s/check.log' % (directory), 'r') as f:
             logs = f.read()
     except OSError:
         logger.error("Could not open file under " + directory)
@@ -53,18 +53,18 @@ def read_results(directory):
         if test in skippedtest:
             testclass = SkippedClass
             testlist = skippedlist
-            logger.debug(test + ' :Skipped')
+            logger.debug('%s: Skipped' % (test))
         elif test in failedtest:
             testclass = FailedClass
             testlist = failedlist
-            logger.debug(test + ' :Failed')
+            logger.debug('%s: Failed' % (test))
         else:
             testclass = PassedClass
             testlist = passedlist
-            logger.debug(test + ' :Passed')
+            logger.debug('%s: Passed' % (test))
 
         # create instance and append to target list
-        t = testclass(test, 0, '', directory + '/' + test)
+        t = testclass(test, 0, '', '%s/%s' % (directory, test))
         t.update_time(directory)
         t.update_summary(directory)
         testlist.append(t)
