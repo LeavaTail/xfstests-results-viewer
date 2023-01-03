@@ -78,7 +78,7 @@ class PassedClass(TestClass):
             logger.error("Could not open file: %s" % (timepath))
             sys.exit()
         # check.time format is "${testname} ${second}"
-        line = re.findall('%s \d+' % (self.name), contents)
+        line = re.findall('%s [0-9]+' % (self.name), contents)
         try:
             self.sec = int(line[0].split(' ')[1])
         except:
