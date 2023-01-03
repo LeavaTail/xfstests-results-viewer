@@ -68,6 +68,20 @@ def test_passed3(module_fixture):
     target.update_time(param['dir'])
     assert target.sec == param['time'][0]
 
+# check.time is not exist
+def test_passed4(module_fixture):
+    param = module_fixture
+    target = PassedClass(param['pass'][0])
+    target.update_time('./')
+    assert target.sec == 0
+
+# testname is not recorded at check.time
+def test_passed5(module_fixture):
+    param = module_fixture
+    target = PassedClass('foo')
+    target.update_time(param['dir'])
+    assert target.sec == 0
+
 # SkippedClass constructor will set (default)
 def test_skipped1(module_fixture):
     param = module_fixture
@@ -95,6 +109,13 @@ def test_skipped3(module_fixture):
     assert target.sec == 0
     assert target.remarks == param['skip'][0]
     assert target.path == ''
+
+# ${testname}.notrun is not exist
+def test_skipped4(module_fixture):
+    param = module_fixture
+    target = SkippedClass(param['skip'][0])
+    target.update_summary('./')
+    assert target.remarks == ''
 
 # FailedClass constructor will set (default)
 def test_failped1(module_fixture):
