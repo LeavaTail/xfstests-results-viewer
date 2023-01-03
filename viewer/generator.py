@@ -4,7 +4,6 @@ This modules define the method to create the some instances
 """
 
 import sys
-import re
 from logging import getLogger, CRITICAL
 from viewer.testcase import PassedClass, SkippedClass, FailedClass
 
@@ -30,8 +29,6 @@ def read_results(directory):
     try:
         with open(directory + '/check.log', 'r') as f:
             logs = f.read()
-        with open(directory + '/check.time', 'r') as f:
-            time = f.read()
     except OSError:
         logger.error("Could not open file under " + directory)
         sys.exit()
@@ -54,36 +51,26 @@ def read_results(directory):
     # First argument is index 'Ran:' should be skipped
     for test in testlist[1:-1]:
         if test in skippedtest:
-            s = SkippedClass(test)
-            update_details(s, time, directory)
-            skippedlist.append(s)
+            testclass = SkippedClass
+            testlist = skippedlist
             logger.debug(test + ' :Skipped')
         elif test in failedtest:
-            f = FailedClass(test)
-            update_details(f, time, directory)
-            failedlist.append(f)
+            testclass = FailedClass
+            testlist = failedlist
             logger.debug(test + ' :Failed')
         else:
-            p = PassedClass(test)
-            update_details(p, time, directory)
-            passedlist.append(p)
+            testclass = PassedClass
+            testlist = passedlist
             logger.debug(test + ' :Passed')
+
+        # create instance and append to target list
+        t = testclass(test, 0, '', directory + '/' + test)
+        t.update_time(directory)
+        t.update_summary(directory)
+        testlist.append(t)
 
     formattedlist["passed"] = passedlist
     formattedlist["failed"] = failedlist
     formattedlist["skipped"] = skippedlist
 
     return formattedlist
-
-def update_details(testcase, time, directory):
-    testcase.update_summary(directory + '/')
-    testcase.update_path(directory)
-
-    # timestamp is separated by a space
-    line = re.findall(testcase.name + ' ' + '\d+', time)
-    # passed testcase
-    if line:
-        testcase.update_time(line[0].split(' ')[1])
-    # skipped or failed testcase
-    else:
-        pass

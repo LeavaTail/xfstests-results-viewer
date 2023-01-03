@@ -5,6 +5,7 @@ timestamp and logfile as well as result directory.
 """
 
 import sys
+import re
 from logging import getLogger
 import dataclasses
 
@@ -22,6 +23,9 @@ class TestClass():
 
     Args:
         name (str): Testcase name
+        sec (int): The elapsed time (second)
+        remarks (str): Additional information (e.g. Skipped cause)
+        path (str): The pathname for xfstests result
 
     Attributes:
         name (str): Testcase name
@@ -30,20 +34,17 @@ class TestClass():
         path (str): The pathname for xfstests result
     """
 
-    def __init__(self, name=''):
+    def __init__(self, name='', sec=0, remarks='', path=''):
         self.name = name
-        self.sec = 0
-        self.remarks = ''
-        self.path = ''
-
-    def update_time(self, sec):
         self.sec = sec
+        self.remarks = remarks
+        self.path = path
+
+    def update_time(self, timepath):
+        pass
 
     def update_summary(self, pathname):
         pass
-
-    def update_path(self, base):
-        self.path = base + '/' + self.name
 
 
 class PassedClass(TestClass):
@@ -53,6 +54,9 @@ class PassedClass(TestClass):
 
     Args:
         name (str): Testcase name
+        sec (int): The elapsed time (second)
+        remarks (str): Additional information (e.g. Skipped cause)
+        path (str): The pathname for xfstests result
 
     Attributes:
         name (str): Testcase name
@@ -62,8 +66,23 @@ class PassedClass(TestClass):
     """
 
 
-    def __init__(self, name=''):
-        super().__init__(name)
+    def __init__(self, name='', sec=0, remarks='', path=''):
+        super().__init__(name, sec, remarks, path)
+
+    def update_time(self, pathname):
+        timepath = pathname + '/check.time'
+        try:
+            with open(timepath, 'r') as f:
+                contents = f.read()
+        except OSError:
+            logger.error("Could not open file:" + timepath)
+            sys.exit()
+        # check.time format is "${testname} ${second}"
+        line = re.findall(self.name + ' ' + '\d+', contents)
+        try:
+            self.sec = int(line[0].split(' ')[1])
+        except:
+            logger.warning(self.sec + 'is not recorded at ' + timepath)
 
 
 class SkippedClass(TestClass):
@@ -73,6 +92,9 @@ class SkippedClass(TestClass):
 
     Args:
         name (str): Testcase name
+        sec (int): The elapsed time (second)
+        remarks (str): Additional information (e.g. Skipped cause)
+        path (str): The pathname for xfstests result
 
     Attributes:
         name (str): Testcase name
@@ -81,15 +103,16 @@ class SkippedClass(TestClass):
         path (str): The pathname for xfstests result
     """
 
-    def __init__(self, name=''):
-        super().__init__(name)
+    def __init__(self, name='', sec=0, remarks='', path=''):
+        super().__init__(name, sec, remarks, path)
 
     def update_summary(self, pathname):
+        logpath = pathname + '/' + self.name + '.notrun'
         try:
-            with open(pathname + self.name + '.' + 'notrun', 'r') as f:
+            with open(logpath, 'r') as f:
                 contents = f.read()
         except OSError:
-            logger.error("Could not open file:" + pathname + self.name + '.' + 'notrun')
+            logger.error("Could not open file:" + logpath)
             sys.exit()
         self.remarks = contents
 
@@ -101,6 +124,9 @@ class FailedClass(TestClass):
 
     Args:
         name (str): Testcase name
+        sec (int): The elapsed time (second)
+        remarks (str): Additional information (e.g. Skipped cause)
+        path (str): The pathname for xfstests result
 
     Attributes:
         name (str): Testcase name
@@ -109,5 +135,5 @@ class FailedClass(TestClass):
         path (str): The pathname for xfstests result
     """
 
-    def __init__(self, name=''):
-        super().__init__(name)
+    def __init__(self, name='', sec=0, remarks='', path=''):
+        super().__init__(name, sec, remarks, path)
