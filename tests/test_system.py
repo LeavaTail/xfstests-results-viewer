@@ -4,6 +4,7 @@ testcase class method verification
 * verify whether the utility output json file
 * verify whether the utility can output excel file
 * verify whether the utility can change output path
+* verify whether the utility can change logger level
 """
 
 import os
@@ -115,3 +116,43 @@ def test_excel(tmpdir):
     with patch("sys.argv", args):
         main()
     assert os.path.isfile('out.xlsx') == True
+
+# verbose mode
+def test_verbose(tmpdir):
+    d = tmpdir.mkdir("results")
+
+    # Create xfstest results files
+    create_timefile(d.strpath, [], [])
+    create_logfile(d.strpath, [], [], [])
+    create_notrun(d.strpath, [])
+
+    # command line arguments
+    args = [
+        "xfstests_results_viewer",
+        "-v",
+        d.strpath
+    ]
+
+    with patch("sys.argv", args):
+        main()
+    assert os.path.isfile('out.json') == True
+
+# quite mode
+def test_quite(tmpdir):
+    d = tmpdir.mkdir("results")
+
+    # Create xfstest results files
+    create_timefile(d.strpath, [], [])
+    create_logfile(d.strpath, [], [], [])
+    create_notrun(d.strpath, [])
+
+    # command line arguments
+    args = [
+        "xfstests_results_viewer",
+        "-q",
+        d.strpath
+    ]
+
+    with patch("sys.argv", args):
+        main()
+    assert os.path.isfile('out.json') == True
