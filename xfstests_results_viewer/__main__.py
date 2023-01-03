@@ -16,9 +16,9 @@ import sys
 import argparse
 from logging import getLogger, StreamHandler, DEBUG, CRITICAL, WARNING
 
-from viewer.generator import read_results
-from viewer.conv_json import ConvJsonClass
-from viewer.conv_excel import ConvExcelClass
+from xfstests_results_viewer.generator import read_results
+from xfstests_results_viewer.conv_json import ConvJsonClass
+from xfstests_results_viewer.conv_excel import ConvExcelClass
 
 logger = getLogger(__name__)
 

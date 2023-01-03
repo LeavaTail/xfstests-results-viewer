@@ -4,7 +4,7 @@ This modules define the method for JSON format.
 """
 
 import json
-from viewer.conv_generic import ConvClass
+from xfstests_results_viewer.conv_generic import ConvClass
 
 class ConvJsonClass(ConvClass):
 

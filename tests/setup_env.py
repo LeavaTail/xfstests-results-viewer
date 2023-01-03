@@ -5,7 +5,7 @@ This support some operation to prepare environment.
 """
 
 import os
-from viewer.testcase import PassedClass, SkippedClass, FailedClass
+from xfstests_results_viewer.testcase import PassedClass, SkippedClass, FailedClass
 
 def create_timefile(basepath, l, t):
     """Create check.time for test

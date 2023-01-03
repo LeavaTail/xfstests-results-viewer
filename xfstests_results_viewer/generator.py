@@ -5,7 +5,7 @@ This modules define the method to create the some instances
 
 import sys
 from logging import getLogger, CRITICAL
-from viewer.testcase import PassedClass, SkippedClass, FailedClass
+from xfstests_results_viewer.testcase import PassedClass, SkippedClass, FailedClass
 
 logger = getLogger("__main__").getChild("generator")
 

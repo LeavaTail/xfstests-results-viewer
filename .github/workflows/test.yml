@@ -43,7 +43,7 @@ jobs:
         pip install .
     - name: Test with pytest
       run: |
-        python -m pytest --cov=./viewer --cov-report=xml
+        python -m pytest --cov=./xfstests_results_viewer --cov-report=xml
     - name: Upload coverage reports to Codecov with GitHub Action
       uses: codecov/codecov-action@v3
       with:

@@ -10,7 +10,7 @@ import shutil
 import pytest
 from logging import getLogger, CRITICAL
 from tests.setup_env import create_timefile, create_logfile, create_notrun
-from viewer.testcase import PassedClass, SkippedClass, FailedClass
+from xfstests_results_viewer.testcase import PassedClass, SkippedClass, FailedClass
 
 getLogger("__main__").setLevel(CRITICAL)
 
