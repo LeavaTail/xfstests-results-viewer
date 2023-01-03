@@ -74,15 +74,18 @@ class PassedClass(TestClass):
         try:
             with open(timepath, 'r') as f:
                 contents = f.read()
-        except OSError:
-            logger.error("Could not open file: %s" % (timepath))
-            sys.exit()
+        except FileNotFoundError as err:
+            logger.warning("Skip to set time as %s is not found" % timepath)
+            self.set = 0
+            return
+
         # check.time format is "${testname} ${second}"
         line = re.findall('%s [0-9]+' % (self.name), contents)
         try:
             self.sec = int(line[0].split(' ')[1])
-        except:
+        except IndexError as err:
             logger.warning('%d is not recorded at %s' % (self.sec, timepath))
+            self.sec = 0
 
 
 class SkippedClass(TestClass):
@@ -111,9 +114,11 @@ class SkippedClass(TestClass):
         try:
             with open(logpath, 'r') as f:
                 contents = f.read()
-        except OSError:
-            logger.error("Could not open file: %s" %(logpath))
-            sys.exit()
+        except FileNotFoundError as err:
+            logger.warning("Skip to set remarks as %s is not found" % logpath)
+            self.remarks = ''
+            return
+
         self.remarks = contents
 
 
