@@ -20,7 +20,7 @@ class ConvJsonClass(ConvClass):
         """This method dump the results to JSON format
 
         Args:
-            l (list): The class instance list 
+            l (list): The class instance list
             output (str): Output pathname
 
         Examples:

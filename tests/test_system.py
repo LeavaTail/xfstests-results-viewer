@@ -1,4 +1,4 @@
-"""System test 
+"""System test
 
 testcase class method verification
 * verify whether the utility output json file

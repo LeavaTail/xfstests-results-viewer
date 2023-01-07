@@ -12,7 +12,7 @@ class ConvExcelClass(ConvClass):
         """This method convert the list to Dataframe for excel
 
         Args:
-            l (list): The class instance list 
+            l (list): The class instance list
             k (str): key name for excel sheet name
 
         Examples:
@@ -26,7 +26,7 @@ class ConvExcelClass(ConvClass):
         """This method dump the results to excel format
 
         Args:
-            l (list): The class instance list 
+            l (list): The class instance list
             output (str): Output pathname
 
         Examples:

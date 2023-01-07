@@ -1,4 +1,4 @@
-"""Unit test for testcase.py 
+"""Unit test for testcase.py
 
 testcase class method verification
 * each setter can be set

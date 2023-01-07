@@ -1,4 +1,4 @@
-"""The Utility for xfstests logfile 
+"""The Utility for xfstests logfile
 
 xfstests-results-viewer needs input (xfstests results directory)
 This support some operation to prepare environment.

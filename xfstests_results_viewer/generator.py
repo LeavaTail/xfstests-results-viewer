@@ -18,7 +18,7 @@ def read_results(directory):
     (e.g. Cause of skip, timestamp)
 
     Note:
-        Only obtain the log in last result 
+        Only obtain the log in last result
     """
     testlist = []
     formattedlist = {}

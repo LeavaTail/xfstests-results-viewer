@@ -1,4 +1,4 @@
-"""Unit test for generator.py 
+"""Unit test for generator.py
 
 testcase class method verification
 * read_results() raise exception when check.log is not exist
