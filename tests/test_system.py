@@ -30,9 +30,9 @@ def module_fixture():
     yield
 
     # Clean up process
-    if(os.path.isfile('out.json')):
+    if (os.path.isfile('out.json')):
         os.remove('out.json')
-    if(os.path.isfile('out.xlsx')):
+    if (os.path.isfile('out.xlsx')):
         os.remove('out.xlsx')
 
 # empty results files
