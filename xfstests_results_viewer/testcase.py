@@ -65,7 +65,6 @@ class PassedClass(TestClass):
         path (str): The pathname for xfstests result
     """
 
-
     def __init__(self, name='', sec=0, remarks='', path=''):
         super().__init__(name, sec, remarks, path)
 
