@@ -19,7 +19,7 @@ getLogger("__main__").setLevel(CRITICAL)
 def test_nofile(tmpdir):
     d = tmpdir.mkdir("results")
     with pytest.raises(SystemExit):
-        formattedlist = read_results(os.path.abspath(d))
+        read_results(os.path.abspath(d))
 
 # empty test results
 def test_emptyfile(tmpdir):
